@@ -25,7 +25,7 @@ def nouns_prepare():
         lambda c: f"a photo of the small {c}.",
     )# from https://github.com/openai/CLIP/blob/main/notebooks/Prompt_Engineering_for_ImageNet.ipynb
 
-    nouns = pd.read_csv("./data/WordNetNouns.csv").values
+    nouns = pd.read_csv("./data/WordNet_Nouns.csv").values
     nouns_num = nouns.shape[0]
     batch_size = 2048
     model = CLIPModel(model_name="ViT-B/16").cuda()
@@ -101,12 +101,12 @@ if __name__ == "__main__":
         nouns_prepare()
         print("Please rerun the script.")
         exit()
-    cluster_num = 500
+    cluster_num = 800
     topK = 1
     threshold = 0.9
     try:
         nouns_embedding = np.load("./data_extract/filtered_nouns_embedding_ensemble.npy")
-        nouns_embedding = (nouns_embedding / np.linalg.norm(nouns_embedding, axis=1, keepdims=True))
+        nouns_embedding = (nouns_embedding / np.linalg.norm(nouns_embedding, axis=1, keepdims=True)).astype('float32')
     except:
         nouns_embedding = (nouns_embedding / np.linalg.norm(nouns_embedding, axis=1, keepdims=True)).astype('float32')
 
@@ -139,13 +139,13 @@ if __name__ == "__main__":
         exit()
 
     dis, preds = kmeans(nouns_embedding, cluster_num)
-    outlier_nouns_embedding = nouns_embedding[dis>threshold]
+    repst_nouns_embedding = nouns_embedding[dis>threshold]
 
-    nouns_embedding_selected = TopK_nouns(preds, nouns_embedding, cluster_num, topK)
+    clus_nouns_embedding = TopK_nouns(preds, nouns_embedding, cluster_num, topK)
     
-    selected_nouns_embedding = np.vstack((outlier_nouns_embedding, nouns_embedding_selected.cpu().numpy()))
+    selected_nouns_embedding = np.vstack((repst_nouns_embedding, clus_nouns_embedding.cpu().numpy()))
     np.save(
         "./data_extract/selected_nouns_embedding.npy",
-        outlier_nouns_embedding
+        repst_nouns_embedding
     )
     
