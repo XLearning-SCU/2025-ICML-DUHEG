@@ -6,7 +6,6 @@ from models import CLIPModel
 import numpy as np
 import pandas as pd
 import torch.nn.functional as F
-import matplotlib.pyplot as plt
 
 
 def get_prompt(words, index, SIMPLE_IMAGENET_TEMPLATES, device="cuda"):
