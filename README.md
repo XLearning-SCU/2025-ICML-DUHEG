@@ -70,8 +70,8 @@ Below is a list of the open-source datasets used in this paper, along with their
 
 | Dataset                           | Corresponding Sources                                               |
 |-----------------------------------|---------------------------------------------------------------------|
-| **CIFAR-10**                      | [Will be downloaded automatically.](https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz) |
+| **CIFAR-10**                      | [Will be downloaded automatically](https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz) |
 | **Flickr25k**                     | [https://press.liacs.nl/mirflickr/](https://press.liacs.nl/mirflickr/mirdownload.html) |
-| **MSCOCO**                        | [Obtained from FSCH (NeurIPS 2017)](https://github.com/huanglab-research/FSCH/tree/main)                |
-| **NUS-WIDE**                      | [Obtained from DSDH (TCSVT 2023)](https://github.com/Tree-Shu-Zhao/DSDH_PyTorch?tab=readme-ov-file) |
+| **MSCOCO**                        | [Obtained from FSCH (TCSVT 2023)](https://github.com/huanglab-research/FSCH/tree/main)                |
+| **NUS-WIDE**                      | [Obtained from DSDH (NeurIPS 2017)](https://github.com/Tree-Shu-Zhao/DSDH_PyTorch?tab=readme-ov-file) |
 | **WordNet**                       | [https://wordnet.princeton.edu/](https://wordnet.princeton.edu/)    |
