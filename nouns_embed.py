@@ -98,7 +98,7 @@ if __name__ == "__main__":
         nouns_embedding = np.load("./data_extract/nouns_embedding_ensemble.npy")
     except:
         nouns_prepare()
-        print("Please rerun the script.")
+        print("------ Please rerun the script ------")
         exit()
     cluster_num = 800
     topK = 1
@@ -115,12 +115,12 @@ if __name__ == "__main__":
         all_self = False
         
         while not all_self:
-            index = faiss.IndexFlatL2(512)  # 使用L2距离
+            index = faiss.IndexFlatL2(512)  # Use L2 distance
             gpu_index = faiss.index_cpu_to_gpu(res, 0, index)
             gpu_index.add(nouns_embedding)
             D, I = gpu_index.search(nouns_embedding, k=2)
 
-            # 删除第一个不是自己的索引
+            # Remove the first index if it is not the query itself
             indices_to_delete = []
             all_self = True
             for i in range(len(I)):
@@ -134,7 +134,7 @@ if __name__ == "__main__":
         
         filtered_nouns_embedding = nouns_embedding
         np.save("./data_extract/filtered_nouns_embedding_ensemble.npy", filtered_nouns_embedding)
-        print("Please rerun the script.")
+        print("------ Please rerun the script ------")
         exit()
 
     dis, preds = kmeans(nouns_embedding, cluster_num)

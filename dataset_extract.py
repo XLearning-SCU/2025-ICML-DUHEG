@@ -9,30 +9,30 @@ def data_prepare(dataset_name):
     batch_size = 512
 
     if dataset_name == "CIFAR-10":
-        train_index = np.loadtxt('/media/hdd4/sqh/Hash_Part/Hash_TAC/data/cifar-10-batches-py/train_index.txt', dtype=int)
+        train_index = np.loadtxt('./data/cifar-10-batches-py/train_index.txt', dtype=int)
         train_dataset = CIFAR10(root="./data", model='train', download=True, transform=train_transform2(), train_index=train_index)
         query_dataset = CIFAR10(root="./data", model='query', download=True, transform=query_transform2())
         retrieval_dataset = CIFAR10(root="./data", model='retrieval', download=True, transform=query_transform2())
 
     elif dataset_name == "flickr25k":
-        data_path = '/media/hdd4/sqh/MIRFLICKR25K/mirflickr25k-iall.mat'
-        label_path = '/media/hdd4/sqh/MIRFLICKR25K/mirflickr25k-lall.mat'
-        train_index = np.loadtxt('/media/hdd4/sqh/Hash_Part/Hash_TAC/data/flickr25k/train_index.txt', dtype=int)
-        retrieval_index = np.loadtxt('/media/hdd4/sqh/Hash_Part/Hash_TAC/data/flickr25k/retrieval_index.txt', dtype=int)
-        query_index = np.loadtxt('/media/hdd4/sqh/Hash_Part/Hash_TAC/data/flickr25k/query_index.txt', dtype=int)
+        data_path = 'your_mirflickr25k_image_path'
+        label_path = 'your_mirflickr25k_label_path'
+        train_index = np.loadtxt('./data/flickr25k/train_index.txt', dtype=int)
+        retrieval_index = np.loadtxt('./data/flickr25k/retrieval_index.txt', dtype=int)
+        query_index = np.loadtxt('./data/flickr25k/query_index.txt', dtype=int)
 
         train_dataset = Flickr25k(data_path, label_path, transform=train_transform(), mode='train', index=train_index)
         query_dataset = Flickr25k(data_path, label_path, transform=query_transform(), mode='query', index=query_index)
         retrieval_dataset = Flickr25k(data_path, label_path, transform=query_transform(), mode='retrieval', index=retrieval_index)
 
     elif dataset_name == "nus-wide":
-        root = '/media/hdd4/sqh/Hash_Part/Hash_TAC/data/nuswide21/NUSWIDE'
+        root = './data/nus-wide' # This is also the path to your NUS-WIDE dataset
         train_dataset = NusWideDatasetTC21(root, img_txt='train_img.txt', label_txt='train_label_onehot.txt', transform=train_transform())
         query_dataset = NusWideDatasetTC21(root, img_txt='test_img.txt', label_txt='test_label_onehot.txt', transform=query_transform())
         retrieval_dataset = NusWideDatasetTC21(root, img_txt='database_img.txt', label_txt='database_label_onehot.txt', transform=query_transform())
 
     elif dataset_name == "mscoco":
-        root = '/media/hdd4/sqh/Hash_Part/Hash_TAC/data/mscoco'
+        root = './data/mscoco' # This is also the path to your MSCOCO dataset
         train_dataset = MScoco(root, img_txt='train.txt', transform=train_transform())
         query_dataset = MScoco(root, img_txt='test.txt', transform=query_transform())
         retrieval_dataset = MScoco(root, img_txt='database.txt', transform=query_transform())

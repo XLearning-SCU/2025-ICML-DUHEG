@@ -25,8 +25,6 @@ class CLIPModel(nn.Module):
         x = x.permute(1, 0, 2)  # LND -> NLD
         x = self.clip.ln_final(x).type(self.dtype)
 
-        # x.shape = [batch_size, n_ctx, transformer.width]
-        # take features from the eot embedding (eot_token is the highest number in each sequence)
         x = x[torch.arange(x.shape[0]), text.argmax(dim=-1)] @ self.clip.text_projection
 
         return x

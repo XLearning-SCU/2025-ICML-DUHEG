@@ -63,7 +63,6 @@ def info_nce_loss(embeddings1, embeddings2, external_labels, temperature, use_si
         labels = external_labels
 
     else:
-        # 对角线是1
         labels = torch.eye(batch_size).to(similarity_matrix.device)
 
     img_txt_logits = F.softmax(similarity_matrix, dim=1)
@@ -82,7 +81,7 @@ def eval(model, backbone, database_loader, val_loader, map, name, device):
     with torch.no_grad():
         retrievalB, retrievalL, queryB, queryL = compress(database_loader, val_loader, model, backbone, device)
         result = calculate_top_map(qB=queryB, rB=retrievalB, queryL=queryL, retrievalL=retrievalL, topk=map)
-        # print(f"compute PR curve and P@top{map} curve")
+        # compute PR curve and P@top{map} curve
         # calculate_PR_curve(qB=queryB, rB=retrievalB, queryL=queryL, retrievalL=retrievalL, dataset_name=name)
         # calculate_P_at_topK_curve(qB=queryB, rB=retrievalB, queryL=queryL, retrievalL=retrievalL, topk=map, dataset_name=name)
     return result
@@ -197,7 +196,6 @@ if __name__ == "__main__":
 
             result = 0
             for epoch in range(num_epochs):
-                # 余弦退火
                 current_lr = warmup_cosine(optimizer=optimizer, current_epoch=epoch, max_epoch=num_epochs, lr_min=lr_min, lr_max=learning_rate, warmup_epoch=warmup_epoch)
                 model.train()
                 for iter, data_tuple in enumerate(dataloader_train):

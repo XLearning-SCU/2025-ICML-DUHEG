@@ -18,17 +18,13 @@ from torchvision.transforms import InterpolationMode
 BICUBIC = InterpolationMode.BICUBIC
 
 class GaussianBlur:
-    # Implements Gaussian blur as described in the SimCLR paper
     def __init__(self, kernel_size, min=0.1, max=2.0):
         self.min = min
         self.max = max
-        # kernel size is set to be 10% of the image height/width
         self.kernel_size = kernel_size
 
     def __call__(self, sample):
         sample = np.array(sample)
-
-        # blur the image with a 50% chance
         prob = np.random.random_sample()
 
         if prob < 0.5:
@@ -126,7 +122,7 @@ class CIFAR10(VisionDataset):
 
         super().__init__(root, transform=transform, target_transform=target_transform)
 
-        self.model = model  # training set or test set
+        self.model = model
         self.nouns_emb = nouns_emb
         self.train_index = train_index
 
@@ -142,12 +138,10 @@ class CIFAR10(VisionDataset):
             downloaded_list = self.test_list
         elif self.model == 'retrieval':
             downloaded_list = self.train_list
-        # downloaded_list = self.database_list
 
         self.data: Any = []
         self.targets = []
 
-        # now load the picked numpy arrays
         for file_name, checksum in downloaded_list:
             file_path = os.path.join(self.root, self.base_folder, file_name)
             with open(file_path, "rb") as f:
@@ -178,17 +172,7 @@ class CIFAR10(VisionDataset):
         self.class_to_idx = {_class: i for i, _class in enumerate(self.classes)}
 
     def __getitem__(self, index: int) -> Tuple[Any, Any]:
-        """
-        Args:
-            index (int): Index
-
-        Returns:
-            tuple: (image, target) where target is index of the target class.
-        """
         img, target = self.data[index], self.targets[index]
-
-        # doing this so that it is consistent with all other datasets
-        # to return a PIL Image
         img = Image.fromarray(img)
 
         if self.target_transform is not None:
@@ -266,17 +250,6 @@ class Flickr25k(Dataset):
         return self.index.shape[0]
     
 class NusWideDatasetTC21(Dataset):
-    """
-    Nus-wide dataset, 21 classes.
-
-    Args
-        root(str): Path of image files.
-        img_txt(str): Path of txt file containing image file name.
-        label_txt(str): Path of txt file containing image label.
-        transform(callable, optional): Transform images.
-        train(bool, optional): Return training dataset.
-        num_train(int, optional): Number of training data.
-    """
     def __init__(self, root, img_txt, label_txt, transform=None, nouns_emb=None):
         self.root = root
         self.img_txt = img_txt
@@ -314,17 +287,6 @@ class NusWideDatasetTC21(Dataset):
         return len(self.data)
 
 class MScoco(Dataset):
-    """
-    Nus-wide dataset, 21 classes.
-
-    Args
-        root(str): Path of image files.
-        img_txt(str): Path of txt file containing image file name.
-        label_txt(str): Path of txt file containing image label.
-        transform(callable, optional): Transform images.
-        train(bool, optional): Return training dataset.
-        num_train(int, optional): Number of training data.
-    """
     def __init__(self, root, img_txt, transform=None, nouns_emb=None):
         self.root = root
         self.img_txt = img_txt

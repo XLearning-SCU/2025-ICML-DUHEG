@@ -1,0 +1,11 @@
+numpy == 1.19.4
+torch == 1.13.1
+torchvision == 0.13.1+cu113
+Pillow == 8.0.1
+scipy == 1.6.0
+h5py == 3.8.0
+opencv-python == 4.5.1.48
+tqdm == 4.67.1
+faiss-gpu == 1.7.2
+pandas == 1.1.5
+git+https://github.com/openai/CLIP.git

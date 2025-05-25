@@ -40,25 +40,12 @@ def compress(retrieval, query, model, backbone, device):
 
 
 def calculate_hamming(B1, B2):
-    """
-    :param B1:  vector [n]
-    :param B2:  vector [r*n]
-    :return: hamming distance [r]
-    """
     q = B2.shape[1]
     distH = 0.5 * (q - np.dot(B1, B2.transpose()))
     return distH
 
 
 def calculate_top_map(qB, rB, queryL, retrievalL, topk):
-    """
-    :param qB: {-1,+1}^{mxq} query bits
-    :param rB: {-1,+1}^{nxq} retrieval bits
-    :param queryL: {0,1}^{mxl} query label
-    :param retrievalL: {0,1}^{nxl} retrieval label
-    :param topk:
-    :return:
-    """
     num_query = queryL.shape[0]
     topkmap = 0
 
@@ -85,14 +72,6 @@ def calculate_top_map(qB, rB, queryL, retrievalL, topk):
 
 
 def calculate_PR_curve(qB, rB, queryL, retrievalL, dataset_name):
-    """
-    :param qB: {-1,+1}^{mxq} query bits
-    :param rB: {-1,+1}^{nxq} retrieval bits
-    :param queryL: {0,1}^{mxl} query label
-    :param retrievalL: {0,1}^{nxl} retrieval label
-    :param topk:
-    :return:
-    """
     num_query = queryL.shape[0]
     retrieval_query = retrievalL.shape[0]
     precisions, recalls = [], []
@@ -120,18 +99,10 @@ def calculate_PR_curve(qB, rB, queryL, retrievalL, dataset_name):
     precision_axis = (np.stack(precisions)).mean(axis=0)
     recall_axis = (np.stack(recalls)).mean(axis=0)
     PR_curve = np.stack([recall_axis, precision_axis])
-    np.savetxt(os.path.join("/media/hdd4/sqh/Hash_Part/Hash_TAC/Plots/DUH-EG2", dataset_name+'PR_curve.txt'), PR_curve)
+    np.savetxt(os.path.join("./Plots/DUH-EG2", dataset_name+'PR_curve.txt'), PR_curve)
 
 
 def calculate_P_at_topK_curve(qB, rB, queryL, retrievalL, topk, dataset_name):
-    """
-    :param qB: {-1,+1}^{mxq} query bits
-    :param rB: {-1,+1}^{nxq} retrieval bits
-    :param queryL: {0,1}^{mxl} query label
-    :param retrievalL: {0,1}^{nxl} retrieval label
-    :param topk:
-    :return:
-    """
     num_query = queryL.shape[0]
     precisions = []
 
@@ -154,17 +125,9 @@ def calculate_P_at_topK_curve(qB, rB, queryL, retrievalL, topk, dataset_name):
     precision_axis = (np.stack(precisions)).mean(axis=0)
 
     P_at_topK_curve = np.stack([np.arange(1, topk+1, dtype=np.float), precision_axis])
-    np.savetxt(os.path.join("/media/hdd4/sqh/Hash_Part/Hash_TAC/Plots/DUH-EG2", dataset_name+'P_at_topK_curve.txt'), P_at_topK_curve)
+    np.savetxt(os.path.join("./Plots/DUH-EG2", dataset_name+'P_at_topK_curve.txt'), P_at_topK_curve)
 
 def calculate_top10_retrieval(qB, rB, queryL, retrievalL, dataset_name):
-    """
-    :param qB: {-1,+1}^{mxq} query bits
-    :param rB: {-1,+1}^{nxq} retrieval bits
-    :param queryL: {0,1}^{mxl} query label
-    :param retrievalL: {0,1}^{nxl} retrieval label
-    :param topk:
-    :return:
-    """
     num_query = queryL.shape[0]
     hit_counts, tgnds, tinds = [], [], []
 
@@ -188,7 +151,7 @@ def calculate_top10_retrieval(qB, rB, queryL, retrievalL, dataset_name):
     tgnds = np.stack(tgnds)
     tinds = np.stack(tinds)
     PR_curve = np.stack([index_list, hit_counts])
-    path = os.path.join("/media/hdd4/sqh/Hash_Part/Hash_TAC/Plots/DUH-EG", dataset_name+'top10.txt')
+    path = os.path.join("./Plots/DUH-EG", dataset_name+'top10.txt')
     with h5py.File(path, 'w') as f:
         f.create_dataset('tgnds', data=tgnds)
         f.create_dataset('tinds', data=tinds)
