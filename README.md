@@ -2,7 +2,7 @@
 
 This repository contains the code for the paper **"Deep Unsupervised Hashing via External Guidance"** (ICML 2025).
 
-Our approach aims to leverage external knowledge beyond the inherent visual structure of images to facilitate unsupervised hashing code learning. By introducing external textual information, we provide richer and more precise guidance for hashing network learning, thereby enhancing the discriminativity of the generated binary codes.
+Our approach aims to leverage external knowledge beyond the inherent visual structure of images to facilitate unsupervised hashing code learning. By introducing external textual information, we provide richer and more precise guidance for hashing network learning, thereby enhancing the discriminability of the generated binary codes.
 
 ![Model Overview](./image_1.png)
 ---
